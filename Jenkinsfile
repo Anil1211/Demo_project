@@ -27,7 +27,7 @@ pipeline {
                     nexusArtifactUploader artifacts: [
                         [
                             artifactId: 'maven', classifier: '', 
-                            file: 'target/maven-0.0.1.war', type: 'war'
+                            file: 'target/maven-0.0.1-SNAPSHOT.jar', type: 'jar'
                         ]
                     ], 
                         credentialsId: 'nexus3', 
