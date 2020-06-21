@@ -24,7 +24,19 @@ pipeline {
         stage ('Deployment Stage') {
             steps {
                 withMaven(maven : 'maven_3_6_3') {
-                    sh 'mvn deploy'
+                    nexusArtifactUploader artifacts: [
+                        [
+                            artifactId: 'maven', classifier: '', 
+                            file: 'target/maven-0.0.1.war', type: 'war'
+                        ]
+                    ], 
+                        credentialsId: 'nexus3', 
+                        groupId: 'test', 
+                        nexusUrl: 'localhost:8081', 
+                        nexusVersion: 'nexus3', 
+                        protocol: 'http', 
+                        repository: 'http://localhost:8081/repository/Demo_project/', 
+                        version: '0.0.1'
                 }
             }
         }
