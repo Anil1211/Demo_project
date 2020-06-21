@@ -14,7 +14,7 @@ pipeline {
         stage ('Code Quality Analysis') {
             steps {
                  withSonarQubeEnv('My SonarQube Server') {
-                 sh 'mvn clean package sonar:sonar'
+                 sh 'mvn clean package sonar_scanner:sonar_scanner'
               }                
             }
            
