@@ -6,18 +6,23 @@ pipeline {
 
             steps {
                 withMaven(maven : 'maven_3_6_3') {
-                    sh 'mvn clean compile install'
+                    sh 'mvn clean compile package'
                 }
             }
         }
         
-        stage ('Code Quality Analysis') {
-            steps {
-                 withSonarQubeEnv('My SonarQube Server') {
-                 sh 'mvn clean package sonar_scanner:sonar_scanner'
-              }                
+       stage('Sonarqube') {
+        environment {
+            scannerHome = tool 'SonarQubeScanner'
+        }
+        steps {
+            withSonarQubeEnv('sonarqube') {
+                sh "${scannerHome}/bin/sonar-scanner"
+            }   
+            timeout(time: 10, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+                }
             }
-           
         }    
 
         stage ('Testing Stage') {
