@@ -11,6 +11,15 @@ pipeline {
                 }
             }
         }
+        
+        stage ('Code Quality Analysis') {
+            steps {
+                 withSonarQubeEnv('My SonarQube Server') {
+                 sh 'mvn clean package sonar:sonar'
+              }                
+            }
+           
+        }    
 
         stage ('Testing Stage') {
 
