@@ -11,11 +11,12 @@ pipeline {
             }
         }
         
-       stage ('Build & Package') {
-        
-        withSonarQubeEnv('SonarQubeScanner') {
-            sh 'mvn clean package sonar:sonar'
-            }
+        stage ('Build & Package') {
+            steps {
+                withSonarQubeEnv('SonarQubeScanner') {
+                    sh 'mvn clean package sonar:sonar'
+               } 
+           }
         }
 
         stage ('Testing Stage') {
