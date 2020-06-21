@@ -7,6 +7,7 @@ pipeline {
             steps {
                 withMaven(maven : 'maven_3_6_3') {
                     sh 'mvn clean compile'
+                    sh 'mvn package'
                 }
             }
         }
@@ -27,7 +28,7 @@ pipeline {
                     nexusArtifactUploader artifacts: [
                         [
                             artifactId: 'maven', classifier: '', 
-                            file: 'target/maven-0.0.1-SNAPSHOT.jar', type: 'jar'
+                            file: 'target/maven-0.0.1.jar', type: 'jar'
                         ]
                     ], 
                         credentialsId: 'nexus3', 
