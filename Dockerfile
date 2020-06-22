@@ -1,5 +1,5 @@
 #getting base image from ubuntu
-FROM ubuntu
+FROM openjdk:8-jre
 
 MAINTAINER Anilkumar <anilkumar.mechanical3@gmail.com>
 
