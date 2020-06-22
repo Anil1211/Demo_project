@@ -51,7 +51,16 @@ pipeline {
                         version: '0.0.1'
                 }
             }
-        }  
+        } 
+        
+        stage ('Docker Stage') {
+            steps {
+                withMaven(maven : 'maven_3_6_3') {
+                    sh 'mvn clean install'
+                    sh 'docker build -t anil1211/test_git_python:java .'
+                    sh 'docker push anil1211/test_git_python:java'
+                }
+        }
     }
 }
 
