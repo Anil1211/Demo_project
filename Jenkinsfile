@@ -9,7 +9,7 @@ pipeline {
 
             steps {
                 withMaven(maven : 'maven_3_6_3') {
-                    sh 'mvn clean install'
+                    sh 'mvn clean install package'
                 }
             }
         }
@@ -57,8 +57,8 @@ pipeline {
         
         stage ('Docker Deploy') {
 	    steps {
-	    	sh 'sudo su - docker build -t anil1211/test_git_python:java .'
-	    	sh 'sudo su - docker push anil1211/test_git_python:java'
+	    	sh 'docker build -t anil1211/test_git_python:java .'
+	    	sh 'docker push anil1211/test_git_python:java'
 	    }
 	}        
     }
