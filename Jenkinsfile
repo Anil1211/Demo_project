@@ -56,15 +56,16 @@ pipeline {
             }
         } 
         
-        stage ('Docker Stage') {
+        stage ('Docker Deploy') {
             steps {
-                withMaven(maven : 'maven_3_6_3') {
-                    sh 'mvn clean install'
-                    sh 'docker build -t anil1211/test_git_python:java .'
-                    sh 'docker push anil1211/test_git_python:java'
+                sh 'docker build -t anil1211/test_git_python:2.0.0 .'
+                withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerhub-pwd')]) {
+                    sh "docker login -u anil1211 -p ${dockerhub-pwd}"
+                }   
+                    sh 'docker push anil1211/test_git_python:2.0.0'
                 }
             }
-           } 
+          } 
     }
 }
 
