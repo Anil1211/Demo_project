@@ -9,9 +9,20 @@ pipeline {
 
             steps {
                 withMaven(maven : 'maven_3_6_3') {
-                    sh 'mvn clean compile'
+                    sh 'mvn clean install package'
                 }
             }
+        }
+        
+        stage ('Build & Package') {
+            steps {
+                withSonarQubeEnv('SonarQubeScanner') {
+                    sh 'mvn sonar:sonar \
+                            -Dsonar.projectKey=test:maven \
+                            -Dsonar.host.url=http://localhost:9000 \
+                            -Dsonar.login=9921a83026c860fb8a2b4ff863f3a9bc786a972a'
+               } 
+           }
         }
 
         stage ('Testing Stage') {
@@ -30,7 +41,7 @@ pipeline {
                     nexusArtifactUploader artifacts: [
                         [
                             artifactId: 'maven', classifier: '', 
-                            file: 'target/maven-0.0.1.war', type: 'war'
+                            file: 'target/maven-0.0.1.jar', type: 'jar'
                         ]
                     ], 
                         credentialsId: 'nexus3', 
