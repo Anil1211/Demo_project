@@ -9,7 +9,7 @@ pipeline {
 
             steps {
                 withMaven(maven : 'maven_3_6_3') {
-                    sh 'mvn clean install package'
+                    sh 'mvn clean install'
                 }
             }
         }
