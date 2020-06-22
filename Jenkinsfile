@@ -6,7 +6,7 @@ pipeline {
 
             steps {
                 withMaven(maven : 'maven_3_6_3') {
-                    sh 'mvn clean install'
+                    sh 'mvn clean install package'
                 }
             }
         }
@@ -14,7 +14,10 @@ pipeline {
         stage ('Build & Package') {
             steps {
                 withSonarQubeEnv('SonarQubeScanner') {
-                    sh 'mvn clean package sonar:sonar'
+                    sh 'mvn sonar:sonar \
+                            -Dsonar.projectKey=test:maven \
+                            -Dsonar.host.url=http://localhost:9000 \
+                            -Dsonar.login=9921a83026c860fb8a2b4ff863f3a9bc786a972a'
                } 
            }
         }
