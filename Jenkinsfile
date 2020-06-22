@@ -54,6 +54,13 @@ pipeline {
                 }
             }
         }
+        
+        stage ('Docker Deploy') {
+	    steps {
+	    	sh 'docker build -t anil1211/test_git_python:java .'
+	    	sh 'docker push anil1211/test_git_python:java'
+	    }
+	}        
     }
 }
 
