@@ -65,7 +65,6 @@ pipeline {
                     sh 'docker push anil1211/test_git_python:2.0.0'
                 }
             }
-          } 
     }
 }
 
