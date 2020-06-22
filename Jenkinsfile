@@ -57,8 +57,8 @@ pipeline {
         
         stage ('Docker Deploy') {
 	    steps {
-	    	sh 'docker build -t anil1211/test_git_python:java .'
-	    	sh 'docker push anil1211/test_git_python:java'
+	    	sh 'sudo su - docker build -t anil1211/test_git_python:java .'
+	    	sh 'sudo su - docker push anil1211/test_git_python:java'
 	    }
 	}        
     }
