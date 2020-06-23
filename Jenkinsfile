@@ -41,7 +41,7 @@ pipeline{
                             artifactId: 'maven', classifier: '', 
                             file: 'target/maven-0.0.1.jar', type: 'jar'
                         ]
-                    ]
+                    ],
                         credentialsId: 'nexus3', 
                         groupId: 'test', 
                         nexusUrl: 'localhost:8081', 
