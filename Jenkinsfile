@@ -4,9 +4,7 @@ pipeline{
       registryCredential = 'dockerhub-pwd'
       dockerImage = ''
    }
-   agent {
-      dockerfile true  
-   }
+   agent any
    stages{
    
         stage ('Compile Stage') {
