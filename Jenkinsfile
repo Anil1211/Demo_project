@@ -1,5 +1,9 @@
 pipeline{
-   
+      environment {
+      registry = "anil1211/test_git_python"
+      registryCredential = 'dockerhub-pwd'
+      dockerImage = ''
+   }
    agent {
       dockerfile true  
    }
@@ -55,14 +59,25 @@ pipeline{
             }
         }
       
-      stage('Docker Deploy') {
-         steps {
-            sh 'docker build -t anil1211/test_git_python:2.0.0 .'
-                withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerhub-pwd')]) {
-                    sh "docker login -u anil1211 -p ${dockerhub-pwd}"
-                }   
-                    sh 'docker run -it anil1211/test_git_python:2.0.0'
-                    sh 'docker push anil1211/test_git_python:2.0.0'
+      stage('Building our image') {
+         steps{
+            script {
+               dockerImage = docker.build registry + ":$BUILD_NUMBER"
+            }
+         }
+      }
+      stage('Deploy our image') {
+         steps{
+            script {
+               docker.withRegistry( '', registryCredential ) {
+               dockerImage.push()
+               }
+            }
+         }
+      }
+      stage('Cleaning up') {
+         steps{
+            sh "docker rmi $registry:$BUILD_NUMBER"
          }
       }
    }
