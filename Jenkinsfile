@@ -1,6 +1,8 @@
 pipeline{
    
-   agent any
+   agent {
+      dockerfile true  
+   }
    stages{
    
         stage ('Compile Stage') {
@@ -51,7 +53,18 @@ pipeline{
                         version: '0.0.1'
                 }
             }
-        } 
+        }
+      
+      stage('Docker Deploy') {
+         steps {
+            sh 'docker build -t anil1211/test_git_python:2.0.0 .'
+                withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerhub-pwd')]) {
+                    sh "docker login -u anil1211 -p ${dockerhub-pwd}"
+                }   
+                    sh 'docker run -it anil1211/test_git_python:2.0.0'
+                    sh 'docker push anil1211/test_git_python:2.0.0'
+         }
+      }
    }
 }
 
